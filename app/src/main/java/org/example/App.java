@@ -3,6 +3,11 @@
  */
 package org.example;
 
+import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.openai.OpenAiChatModel;
+
+import static dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
@@ -10,5 +15,16 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
+    }
+
+    private void helloWorld() {
+        ChatLanguageModel model = OpenAiChatModel.builder()
+                .apiKey(System.getenv("OPENAI_API_KEY"))
+                .modelName(GPT_4_O_MINI)
+                .build();
+
+        String answer = model.generate("Hello world!");
+
+        System.out.println(answer);
     }
 }
