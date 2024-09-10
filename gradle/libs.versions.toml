@@ -3,6 +3,13 @@
 
 [versions]
 junit-jupiter = "5.10.3"
+langchain4j = "0.34.0"
 
 [libraries]
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
+langchain4j = { module = "dev.langchain4j:langchain4j", version.ref = "langchain4j" }
+langchain4j-core = { module = "dev.langchain4j:langchain4j-core", version.ref = "langchain4j" }
+langchain4j-open-ai = { module = "dev.langchain4j:langchain4j-open-ai", version.ref = "langchain4j" }
+
+[bundles]
+langchain4j = ["langchain4j", "langchain4j-core", "langchain4j-open-ai"]

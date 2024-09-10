@@ -16,6 +16,8 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.bundles.langchain4j)
+
     // Use JUnit Jupiter for testing.
     testImplementation(libs.junit.jupiter)
 
