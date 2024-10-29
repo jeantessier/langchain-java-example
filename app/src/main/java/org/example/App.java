@@ -5,26 +5,33 @@ package org.example;
 
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.model.openai.OpenAiChatModelName;
 
-import static dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI;
+import static dev.langchain4j.model.openai.OpenAiChatModelName.*;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
-
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
     }
 
-    private void helloWorld() {
-        ChatLanguageModel model = OpenAiChatModel.builder()
-                .apiKey(System.getenv("OPENAI_API_KEY"))
-                .modelName(GPT_4_O_MINI)
+    public String getGreeting() {
+//        return "Hello World!";
+        return getChatLanguageModel().generate("Hello world!");
+    }
+
+    private ChatLanguageModel getChatLanguageModel() {
+        return OpenAiChatModel.builder()
+                .apiKey(getApiKey())
+                .modelName(getModelName())
                 .build();
+    }
 
-        String answer = model.generate("Hello world!");
+    private String getApiKey() {
+        return System.getenv("OPENAI_API_KEY");
+    }
 
-        System.out.println(answer);
+    private OpenAiChatModelName getModelName() {
+//        return GPT_3_5_TURBO;
+        return GPT_4_O_MINI;
     }
 }
