@@ -4,8 +4,6 @@
 package org.example;
 
 import com.google.inject.Guice;
-import dev.langchain4j.model.chat.ChatLanguageModel;
-import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -17,8 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class AppTest {
-    static final Dotenv dotenv = Dotenv.load();
-
     static Stream<Arguments> dataProvider() {
         return Stream.of(
                 arguments("openai", new OpenAiModule()),
