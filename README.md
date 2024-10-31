@@ -20,8 +20,16 @@ can use `.env.template` as a guide to structure your `.env` file.
 > I'm still working in getting the runtime to load the contents of `.env` 
 > into the environment.
 
+To run against OpenAI's ChatGPT:
+
 ```bash
-./gradlew run
+./gradlew run --args="--model openai"
+```
+
+To run against Anthropic's Claude:
+
+```bash
+./gradlew run --args="--model anthropic"
 ```
 
 ## To Test

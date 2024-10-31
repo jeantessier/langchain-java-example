@@ -3,35 +3,71 @@
  */
 package org.example;
 
+import dev.langchain4j.model.anthropic.AnthropicChatModel;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static dev.langchain4j.model.openai.OpenAiChatModelName.*;
 
 public class App {
+    private static final String OPENAI_MODEL = "openai";
+    private static final String ANTHROPIC_MODEL = "anthropic";
+    private static final String DEFAULT_MODEL = OPENAI_MODEL;
+
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        List<String> argsList = Arrays.asList(args);
+        int modelNameIndex = argsList.indexOf("--model");
+        String modelNameValue = (modelNameIndex >= 0) ? argsList.get(modelNameIndex + 1) : DEFAULT_MODEL;
+
+        ChatLanguageModel chatLanguageModel = switch (modelNameValue) {
+            case OPENAI_MODEL -> getOpenAiChatLanguageModel();
+            case ANTHROPIC_MODEL -> getAnthropicChatLanguageModel();
+            default -> throw new IllegalStateException("Unexpected value: " + modelNameValue);
+        };
+        System.out.println(new App(chatLanguageModel).getGreeting());
+    }
+
+    // Visible for tests
+    static ChatLanguageModel getOpenAiChatLanguageModel() {
+        return OpenAiChatModel.builder()
+                .apiKey(getOpenAiApiKey())
+                .modelName(getOpenAiModelName())
+                .build();
+    }
+
+    private static String getOpenAiApiKey() {
+        return System.getenv("OPENAI_API_KEY");
+    }
+
+
+    private static OpenAiChatModelName getOpenAiModelName() {
+//        return GPT_3_5_TURBO;
+        return GPT_4_O_MINI;
+    }
+
+    // Visible for tests
+    static ChatLanguageModel getAnthropicChatLanguageModel() {
+        return AnthropicChatModel.builder()
+                .apiKey(getAnthropicApiKey())
+                .build();
+    }
+
+    private static String getAnthropicApiKey() {
+        return System.getenv("ANTHROPIC_API_KEY");
+    }
+
+    private final ChatLanguageModel chatLanguageModel;
+
+    public App(ChatLanguageModel chatLanguageModel) {
+        this.chatLanguageModel = chatLanguageModel;
     }
 
     public String getGreeting() {
 //        return "Hello World!";
-        return getChatLanguageModel().generate("Hello world!");
-    }
-
-    private ChatLanguageModel getChatLanguageModel() {
-        return OpenAiChatModel.builder()
-                .apiKey(getApiKey())
-                .modelName(getModelName())
-                .build();
-    }
-
-    private String getApiKey() {
-        return System.getenv("OPENAI_API_KEY");
-    }
-
-    private OpenAiChatModelName getModelName() {
-//        return GPT_3_5_TURBO;
-        return GPT_4_O_MINI;
+        return chatLanguageModel.generate("Hello world!");
     }
 }
