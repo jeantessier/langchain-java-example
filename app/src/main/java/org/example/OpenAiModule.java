@@ -2,7 +2,6 @@ package org.example;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
-import com.google.inject.name.Named;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
@@ -12,7 +11,7 @@ import static dev.langchain4j.model.openai.OpenAiChatModelName.*;
 
 public class OpenAiModule extends AbstractModule {
     @Provides
-    ChatLanguageModel provideChatLanguageModel(@Named("api-key") String apiKey, OpenAiChatModelName modelName) {
+    ChatLanguageModel provideChatLanguageModel(@ApiKey String apiKey, OpenAiChatModelName modelName) {
         return OpenAiChatModel.builder()
                 .apiKey(apiKey)
                 .modelName(modelName)
@@ -20,7 +19,7 @@ public class OpenAiModule extends AbstractModule {
     }
 
     @Provides
-    @Named("api-key")
+    @ApiKey
     String provideApiKey(Dotenv dotenv) {
         return dotenv.get("OPENAI_API_KEY");
     }
