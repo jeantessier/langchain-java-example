@@ -15,7 +15,6 @@ public class App {
     }
 
     public String getGreeting() {
-//        return "Hello World!";
         return chatLanguageModel.generate("Hello world!");
     }
 }

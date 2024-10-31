@@ -4,6 +4,8 @@
 package org.example;
 
 import com.google.inject.Guice;
+import dev.ai4j.openai4j.OpenAiHttpException;
+import dev.langchain4j.model.anthropic.internal.client.AnthropicHttpException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -17,23 +19,28 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 class AppTest {
     static Stream<Arguments> dataProvider() {
         return Stream.of(
-                arguments("openai", new OpenAiModule()),
-                arguments("anthropic", new AnthropicModule())
+                arguments("openai", new OpenAiModule(), OpenAiHttpException.class, "You exceeded your current quota"),
+                arguments("anthropic", new AnthropicModule(), AnthropicHttpException.class, "Your credit balance is too low")
         );
     }
 
-    @DisplayName("with chat model")
-    @ParameterizedTest(name="should have a greeting with model {0} ")
+    @DisplayName("with valid license, no credit")
+    @ParameterizedTest(name="with {0} ")
     @MethodSource("dataProvider")
-    void appWithChatModel(String variation, com.google.inject.Module aiModule) {
+    void callChatModel(String variation, com.google.inject.Module aiModule, Class<? extends Exception> exceptionClass, String expectedMessage) {
         // Given
         var injector = Guice.createInjector(new DotenvModule(), aiModule);
         var sut = injector.getInstance(App.class);
 
         // When
-        var actualGreeting = sut.getGreeting();
+        var exception = assertThrows(RuntimeException.class, sut::getGreeting);
 
         // Then
-        assertNotNull(actualGreeting, "app should have a greeting");
+        assertEquals(exceptionClass, exception.getCause().getClass());
+
+        // And
+        String failureMessage = exception.getCause().getMessage();
+        assertTrue(failureMessage.toLowerCase().contains(variation), failureMessage);
+        assertTrue(failureMessage.contains(expectedMessage), failureMessage);
     }
 }
