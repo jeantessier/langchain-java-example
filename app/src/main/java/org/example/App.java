@@ -7,6 +7,7 @@ import dev.langchain4j.model.anthropic.AnthropicChatModel;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +18,8 @@ public class App {
     private static final String OPENAI_MODEL = "openai";
     private static final String ANTHROPIC_MODEL = "anthropic";
     private static final String DEFAULT_MODEL = OPENAI_MODEL;
+
+    private static final Dotenv dotenv = Dotenv.load();
 
     public static void main(String[] args) {
         List<String> argsList = Arrays.asList(args);
@@ -40,7 +43,7 @@ public class App {
     }
 
     private static String getOpenAiApiKey() {
-        return System.getenv("OPENAI_API_KEY");
+        return dotenv.get("OPENAI_API_KEY");
     }
 
 
@@ -57,7 +60,7 @@ public class App {
     }
 
     private static String getAnthropicApiKey() {
-        return System.getenv("ANTHROPIC_API_KEY");
+        return dotenv.get("ANTHROPIC_API_KEY");
     }
 
     private final ChatLanguageModel chatLanguageModel;

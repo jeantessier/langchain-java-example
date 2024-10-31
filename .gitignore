@@ -8,4 +8,4 @@ build
 .idea
 
 # Ignore local configuration file
-.env
+app/src/main/resources/.env

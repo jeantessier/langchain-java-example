@@ -14,11 +14,9 @@ Based on https://github.com/langchain4j/langchain4j-examples/blob/main/other-exa
 
 You’ll need an API key.  So just follow the instructions to
 [obtain your OpenAI API key](https://platform.openai.com/api-keys).
-Save it to the `.env` file as the `OPENAI_API_KEY` environment variable.  You 
-can use `.env.template` as a guide to structure your `.env` file.
-
-> I'm still working in getting the runtime to load the contents of `.env` 
-> into the environment.
+Save it to the `app/src/main/resources/.env` file as the `OPENAI_API_KEY`
+environment variable.  You can use `app/src/main/resources/.env.template` as a
+guide to structure your `.env` file.
 
 To run against OpenAI's ChatGPT:
 
