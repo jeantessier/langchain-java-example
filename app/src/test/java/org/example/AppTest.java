@@ -3,7 +3,9 @@
  */
 package org.example;
 
+import com.google.inject.Guice;
 import dev.langchain4j.model.chat.ChatLanguageModel;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -15,19 +17,22 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class AppTest {
+    static final Dotenv dotenv = Dotenv.load();
+
     static Stream<Arguments> dataProvider() {
         return Stream.of(
-                arguments("openai", App.getOpenAiChatLanguageModel()),
-                arguments("anthropic", App.getAnthropicChatLanguageModel())
+                arguments("openai", new OpenAiModule(dotenv)),
+                arguments("anthropic", new AnthropicModule(dotenv))
         );
     }
 
     @DisplayName("with chat model")
     @ParameterizedTest(name="should have a greeting with model {0} ")
     @MethodSource("dataProvider")
-    void appWithChatModel(String variation, ChatLanguageModel chatLanguageModel) {
+    void appWithChatModel(String variation, com.google.inject.Module module) {
         // Given
-        var sut = new App(chatLanguageModel);
+        var injector = Guice.createInjector(module);
+        var sut = injector.getInstance(App.class);
 
         // When
         var actualGreeting = sut.getGreeting();

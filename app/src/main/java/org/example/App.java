@@ -3,68 +3,41 @@
  */
 package org.example;
 
-import dev.langchain4j.model.anthropic.AnthropicChatModel;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.openai.OpenAiChatModel;
-import dev.langchain4j.model.openai.OpenAiChatModelName;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static dev.langchain4j.model.openai.OpenAiChatModelName.*;
 
 public class App {
     private static final String OPENAI_MODEL = "openai";
     private static final String ANTHROPIC_MODEL = "anthropic";
     private static final String DEFAULT_MODEL = OPENAI_MODEL;
 
-    private static final Dotenv dotenv = Dotenv.load();
-
     public static void main(String[] args) {
+        Dotenv dotenv = Dotenv.load();
+
         List<String> argsList = Arrays.asList(args);
         int modelNameIndex = argsList.indexOf("--model");
         String modelNameValue = (modelNameIndex >= 0) ? argsList.get(modelNameIndex + 1) : DEFAULT_MODEL;
 
-        ChatLanguageModel chatLanguageModel = switch (modelNameValue) {
-            case OPENAI_MODEL -> getOpenAiChatLanguageModel();
-            case ANTHROPIC_MODEL -> getAnthropicChatLanguageModel();
+        com.google.inject.Module aiModule = switch (modelNameValue) {
+            case OPENAI_MODEL -> new OpenAiModule(dotenv);
+            case ANTHROPIC_MODEL -> new AnthropicModule(dotenv);
             default -> throw new IllegalStateException("Unexpected value: " + modelNameValue);
         };
-        System.out.println(new App(chatLanguageModel).getGreeting());
-    }
 
-    // Visible for tests
-    static ChatLanguageModel getOpenAiChatLanguageModel() {
-        return OpenAiChatModel.builder()
-                .apiKey(getOpenAiApiKey())
-                .modelName(getOpenAiModelName())
-                .build();
-    }
-
-    private static String getOpenAiApiKey() {
-        return dotenv.get("OPENAI_API_KEY");
-    }
-
-
-    private static OpenAiChatModelName getOpenAiModelName() {
-//        return GPT_3_5_TURBO;
-        return GPT_4_O_MINI;
-    }
-
-    // Visible for tests
-    static ChatLanguageModel getAnthropicChatLanguageModel() {
-        return AnthropicChatModel.builder()
-                .apiKey(getAnthropicApiKey())
-                .build();
-    }
-
-    private static String getAnthropicApiKey() {
-        return dotenv.get("ANTHROPIC_API_KEY");
+        Injector injector = Guice.createInjector(aiModule);
+        App app = injector.getInstance(App.class);
+        System.out.println(app.getGreeting());
     }
 
     private final ChatLanguageModel chatLanguageModel;
 
+    @Inject
     public App(ChatLanguageModel chatLanguageModel) {
         this.chatLanguageModel = chatLanguageModel;
     }
