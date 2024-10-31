@@ -11,12 +11,6 @@ import io.github.cdimascio.dotenv.Dotenv;
 import static dev.langchain4j.model.openai.OpenAiChatModelName.*;
 
 public class OpenAiModule extends AbstractModule {
-    private final Dotenv dotenv;
-
-    public OpenAiModule(Dotenv dotenv) {
-        this.dotenv = dotenv;
-    }
-
     @Provides
     ChatLanguageModel provideChatLanguageModel(@Named("api-key") String apiKey, OpenAiChatModelName modelName) {
         return OpenAiChatModel.builder()
@@ -27,7 +21,7 @@ public class OpenAiModule extends AbstractModule {
 
     @Provides
     @Named("api-key")
-    String provideApiKey() {
+    String provideApiKey(Dotenv dotenv) {
         return dotenv.get("OPENAI_API_KEY");
     }
 

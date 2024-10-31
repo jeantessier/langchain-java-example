@@ -8,12 +8,6 @@ import dev.langchain4j.model.chat.ChatLanguageModel;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class AnthropicModule extends AbstractModule {
-    private final Dotenv dotenv;
-
-    public AnthropicModule(Dotenv dotenv) {
-        this.dotenv = dotenv;
-    }
-
     @Provides
     ChatLanguageModel provideAnthropicChatLanguageModel(@Named("api-key") String apiKey) {
         return AnthropicChatModel.builder()
@@ -23,7 +17,7 @@ public class AnthropicModule extends AbstractModule {
 
     @Provides
     @Named("api-key")
-    String provideApiKey() {
+    String provideApiKey(Dotenv dotenv) {
         return dotenv.get("ANTHROPIC_API_KEY");
     }
 }

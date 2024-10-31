@@ -21,17 +21,17 @@ class AppTest {
 
     static Stream<Arguments> dataProvider() {
         return Stream.of(
-                arguments("openai", new OpenAiModule(dotenv)),
-                arguments("anthropic", new AnthropicModule(dotenv))
+                arguments("openai", new OpenAiModule()),
+                arguments("anthropic", new AnthropicModule())
         );
     }
 
     @DisplayName("with chat model")
     @ParameterizedTest(name="should have a greeting with model {0} ")
     @MethodSource("dataProvider")
-    void appWithChatModel(String variation, com.google.inject.Module module) {
+    void appWithChatModel(String variation, com.google.inject.Module aiModule) {
         // Given
-        var injector = Guice.createInjector(module);
+        var injector = Guice.createInjector(new DotenvModule(), aiModule);
         var sut = injector.getInstance(App.class);
 
         // When
