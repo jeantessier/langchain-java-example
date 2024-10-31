@@ -9,6 +9,7 @@ import java.util.List;
 public class Main {
     private static final String OPENAI_MODEL = "openai";
     private static final String ANTHROPIC_MODEL = "anthropic";
+    private static final String GOOGLE_MODEL = "google";
     private static final String DEFAULT_MODEL = OPENAI_MODEL;
 
     public static void main(String[] args) {
@@ -19,6 +20,7 @@ public class Main {
         com.google.inject.Module aiModule = switch (modelNameValue) {
             case OPENAI_MODEL -> new OpenAiModule();
             case ANTHROPIC_MODEL -> new AnthropicModule();
+            case GOOGLE_MODEL -> new GoogleModule();
             default -> throw new IllegalStateException("Unexpected value: " + modelNameValue);
         };
 

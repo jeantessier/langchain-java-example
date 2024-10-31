@@ -11,7 +11,7 @@ import static dev.langchain4j.model.openai.OpenAiChatModelName.*;
 
 public class OpenAiModule extends AbstractModule {
     @Provides
-    ChatLanguageModel provideChatLanguageModel(@ApiKey String apiKey, OpenAiChatModelName modelName) {
+    ChatLanguageModel provideChatLanguageModel(@ApiKey String apiKey, @ModelName OpenAiChatModelName modelName) {
         return OpenAiChatModel.builder()
                 .apiKey(apiKey)
                 .modelName(modelName)
@@ -26,6 +26,7 @@ public class OpenAiModule extends AbstractModule {
 
 
     @Provides
+    @ModelName
     OpenAiChatModelName provideModelName() {
 //        return GPT_3_5_TURBO;
         return GPT_4_O_MINI;
