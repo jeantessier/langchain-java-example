@@ -26,6 +26,15 @@ public class Main {
 
         Injector injector = Guice.createInjector(new DotenvModule(), aiModule);
         App app = injector.getInstance(App.class);
+
+        System.out.println("Greeting");
+        System.out.println("--------");
         System.out.println(app.getGreeting());
+
+        System.out.println();
+
+        System.out.println("Recipe");
+        System.out.println("------");
+        System.out.println(app.getRecipe());
     }
 }
