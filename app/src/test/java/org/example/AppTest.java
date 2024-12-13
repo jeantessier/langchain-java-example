@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -43,8 +44,8 @@ class AppTest {
 
         // And
         var failureMessage = exception.getCause().getMessage();
-        assertTrue(failureMessage.toLowerCase().contains(variation), failureMessage);
-        assertTrue(failureMessage.contains(expectedMessage), failureMessage);
+        assertThat(failureMessage.toLowerCase()).contains(variation);
+        assertThat(failureMessage).contains(expectedMessage);
     }
 
     @DisplayName("with valid license, no quota")
@@ -59,6 +60,6 @@ class AppTest {
         var actualMessage = sut.getGreeting();
 
         // Then
-        assertTrue(actualMessage.contains(expectedMessage), actualMessage);
+        assertThat(actualMessage).contains(expectedMessage);
     }
 }
