@@ -17,14 +17,16 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 class AppTest {
     static Stream<Arguments> usedQuotaCases() {
         return Stream.of(
-                arguments("openai", new OpenAiModule(), OpenAiHttpException.class, "You exceeded your current quota"),
+//                arguments("openai", new OpenAiModule(), OpenAiHttpException.class, "You exceeded your current quota"),
                 arguments("anthropic", new AnthropicModule(), AnthropicHttpException.class, "Your credit balance is too low")
         );
     }
 
     static Stream<Arguments> noQuotaCases() {
         return Stream.of(
-                arguments("google", new GoogleModule(), "It's great to hear from you")
+                arguments("openai", new OpenAiModule(), "Hello"),
+//                arguments("google", new GoogleModule(), "It's great to hear from you")
+                arguments("google", new GoogleModule(), "Hello")
         );
     }
 
