@@ -23,7 +23,7 @@ public class GoogleModule extends AbstractModule {
 
     @Provides
     @ModelName
-    String provideModelName() {
-        return "gemini-1.5-flash";
+    String provideModelName(Dotenv dotenv) {
+        return dotenv.get("GOOGLE_MODEL");
     }
 }

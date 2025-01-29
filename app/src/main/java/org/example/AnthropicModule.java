@@ -8,9 +8,10 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 public class AnthropicModule extends AbstractModule {
     @Provides
-    ChatLanguageModel provideAnthropicChatLanguageModel(@ApiKey String apiKey) {
+    ChatLanguageModel provideAnthropicChatLanguageModel(@ApiKey String apiKey, @ModelName String modelName) {
         return AnthropicChatModel.builder()
                 .apiKey(apiKey)
+                .modelName(modelName)
                 .build();
     }
 
@@ -18,5 +19,11 @@ public class AnthropicModule extends AbstractModule {
     @ApiKey
     String provideApiKey(Dotenv dotenv) {
         return dotenv.get("ANTHROPIC_API_KEY");
+    }
+
+    @Provides
+    @ModelName
+    String provideModelName(Dotenv dotenv) {
+        return dotenv.get("ANTHROPIC_MODEL");
     }
 }
