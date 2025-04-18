@@ -20,7 +20,7 @@ public class App {
     }
 
     public String getGreeting() {
-        return chatLanguageModel.generate("Hello world!");
+        return chatLanguageModel.chat("Hello world!");
     }
 
     @StructuredPrompt("Create a recipe for a {{dish}} that can be prepared using only {{ingredients}}")
@@ -35,7 +35,7 @@ public class App {
         createRecipePrompt.ingredients = asList("cucumber", "tomato", "feta", "onion", "olives");
         Prompt prompt = StructuredPromptProcessor.toPrompt(createRecipePrompt);
 
-        AiMessage aiMessage = chatLanguageModel.generate(prompt.toUserMessage()).content();
+        AiMessage aiMessage = chatLanguageModel.chat(prompt.toUserMessage()).aiMessage();
 
         return aiMessage.text();
     }
