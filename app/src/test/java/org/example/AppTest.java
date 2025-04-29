@@ -1,7 +1,7 @@
 package org.example;
 
 import com.google.inject.Guice;
-import dev.ai4j.openai4j.OpenAiHttpException;
+import dev.langchain4j.exception.RateLimitException;
 import dev.langchain4j.model.anthropic.internal.client.AnthropicHttpException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,14 +17,14 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 class AppTest {
     static Stream<Arguments> usedQuotaCases() {
         return Stream.of(
-//                arguments("openai", new OpenAiModule(), OpenAiHttpException.class, "You exceeded your current quota"),
+                arguments("openai", new OpenAiModule(), RateLimitException.class, "You exceeded your current quota"),
                 arguments("anthropic", new AnthropicModule(), AnthropicHttpException.class, "Your credit balance is too low")
         );
     }
 
     static Stream<Arguments> noQuotaCases() {
         return Stream.of(
-                arguments("openai", new OpenAiModule(), "Hello"),
+//                arguments("openai", new OpenAiModule(), "Hello"),
 //                arguments("google", new GoogleModule(), "It's great to hear from you")
                 arguments("google", new GoogleModule(), "Hello")
         );
@@ -42,10 +42,10 @@ class AppTest {
         var exception = assertThrows(RuntimeException.class, sut::getGreeting);
 
         // Then
-        assertEquals(exceptionClass, exception.getCause().getClass());
+        assertEquals(exceptionClass, exception.getClass());
 
         // And
-        var failureMessage = exception.getCause().getMessage();
+        var failureMessage = exception.getMessage();
         assertThat(failureMessage.toLowerCase()).contains(variation);
         assertThat(failureMessage).contains(expectedMessage);
     }
