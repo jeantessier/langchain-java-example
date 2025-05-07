@@ -8,7 +8,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 public class AnthropicModule extends AbstractModule {
     @Provides
-    ChatModel provideAnthropicChatLanguageModel(@ApiKey String apiKey, @ModelName String modelName) {
+    ChatModel provideChatModel(@ApiKey String apiKey, @ModelName String modelName) {
         return AnthropicChatModel.builder()
                 .apiKey(apiKey)
                 .modelName(modelName)

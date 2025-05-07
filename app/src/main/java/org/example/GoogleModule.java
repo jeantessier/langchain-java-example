@@ -8,7 +8,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 public class GoogleModule extends AbstractModule {
     @Provides
-    ChatModel provideGooleAiGeminiChatModel(@ApiKey String apiKey, @ModelName String modelName) {
+    ChatModel provideChatModel(@ApiKey String apiKey, @ModelName String modelName) {
         return GoogleAiGeminiChatModel.builder()
                 .apiKey(apiKey)
                 .modelName(modelName)

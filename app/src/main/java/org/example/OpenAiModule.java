@@ -8,7 +8,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 public class OpenAiModule extends AbstractModule {
     @Provides
-    ChatModel provideChatLanguageModel(@ApiKey String apiKey, @ModelName String modelName) {
+    ChatModel provideChatModel(@ApiKey String apiKey, @ModelName String modelName) {
         return OpenAiChatModel.builder()
                 .apiKey(apiKey)
                 .modelName(modelName)
