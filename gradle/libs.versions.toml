@@ -2,11 +2,12 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 
 [versions]
-assertj = "3.27.0"
-dotenv-java = "3.1.0"
+assertj = "3.27.3"
+dotenv-java = "3.2.0"
 guice = "7.0.0"
 junit-jupiter = "5.12.2"
-langchain4j = "1.0.0-beta3"
+langchain4j = "1.0.0-rc1"
+langchain4j-beta = "1.0.0-beta4"
 
 [libraries]
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
@@ -16,8 +17,8 @@ junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jun
 langchain4j = { module = "dev.langchain4j:langchain4j", version.ref = "langchain4j" }
 langchain4j-core = { module = "dev.langchain4j:langchain4j-core", version.ref = "langchain4j" }
 langchain4j-open-ai = { module = "dev.langchain4j:langchain4j-open-ai", version.ref = "langchain4j" }
-langchain4j-anthropic = { module = "dev.langchain4j:langchain4j-anthropic", version.ref = "langchain4j" }
-langchain4j-google-ai-gemini = { module = "dev.langchain4j:langchain4j-google-ai-gemini", version.ref = "langchain4j" }
+langchain4j-anthropic = { module = "dev.langchain4j:langchain4j-anthropic", version.ref = "langchain4j-beta" }
+langchain4j-google-ai-gemini = { module = "dev.langchain4j:langchain4j-google-ai-gemini", version.ref = "langchain4j-beta" }
 
 [bundles]
 langchain4j = [

@@ -2,7 +2,7 @@ package org.example;
 
 import com.google.inject.Inject;
 import dev.langchain4j.data.message.AiMessage;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.input.Prompt;
 import dev.langchain4j.model.input.structured.StructuredPrompt;
 import dev.langchain4j.model.input.structured.StructuredPromptProcessor;
@@ -12,15 +12,15 @@ import java.util.List;
 import static java.util.Arrays.asList;
 
 public class App {
-    private final ChatLanguageModel chatLanguageModel;
+    private final ChatModel chatModel;
 
     @Inject
-    public App(ChatLanguageModel chatLanguageModel) {
-        this.chatLanguageModel = chatLanguageModel;
+    public App(ChatModel chatModel) {
+        this.chatModel = chatModel;
     }
 
     public String getGreeting() {
-        return chatLanguageModel.chat("Hello world!");
+        return chatModel.chat("Hello world!");
     }
 
     @StructuredPrompt("Create a recipe for a {{dish}} that can be prepared using only {{ingredients}}")
@@ -35,7 +35,7 @@ public class App {
         createRecipePrompt.ingredients = asList("cucumber", "tomato", "feta", "onion", "olives");
         Prompt prompt = StructuredPromptProcessor.toPrompt(createRecipePrompt);
 
-        AiMessage aiMessage = chatLanguageModel.chat(prompt.toUserMessage()).aiMessage();
+        AiMessage aiMessage = chatModel.chat(prompt.toUserMessage()).aiMessage();
 
         return aiMessage.text();
     }

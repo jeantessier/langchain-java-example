@@ -2,13 +2,13 @@ package org.example;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class GoogleModule extends AbstractModule {
     @Provides
-    ChatLanguageModel provideGooleAiGeminiChatModel(@ApiKey String apiKey, @ModelName String modelName) {
+    ChatModel provideGooleAiGeminiChatModel(@ApiKey String apiKey, @ModelName String modelName) {
         return GoogleAiGeminiChatModel.builder()
                 .apiKey(apiKey)
                 .modelName(modelName)

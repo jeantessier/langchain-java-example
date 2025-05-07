@@ -3,12 +3,12 @@ package org.example;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import dev.langchain4j.model.anthropic.AnthropicChatModel;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class AnthropicModule extends AbstractModule {
     @Provides
-    ChatLanguageModel provideAnthropicChatLanguageModel(@ApiKey String apiKey, @ModelName String modelName) {
+    ChatModel provideAnthropicChatLanguageModel(@ApiKey String apiKey, @ModelName String modelName) {
         return AnthropicChatModel.builder()
                 .apiKey(apiKey)
                 .modelName(modelName)
