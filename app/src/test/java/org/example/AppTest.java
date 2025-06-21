@@ -2,7 +2,7 @@ package org.example;
 
 import com.google.inject.Guice;
 import dev.langchain4j.exception.RateLimitException;
-import dev.langchain4j.model.anthropic.internal.client.AnthropicHttpException;
+import dev.langchain4j.exception.InvalidRequestException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -17,14 +17,14 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 class AppTest {
     static Stream<Arguments> usedQuotaCases() {
         return Stream.of(
-                arguments("openai", new OpenAiModule(), RateLimitException.class, "You exceeded your current quota"),
-                arguments("anthropic", new AnthropicModule(), AnthropicHttpException.class, "Your credit balance is too low")
+//                arguments("openai", new OpenAiModule(), RateLimitException.class, "You exceeded your current quota"),
+                arguments("anthropic", new AnthropicModule(), InvalidRequestException.class, "Your credit balance is too low")
         );
     }
 
     static Stream<Arguments> noQuotaCases() {
         return Stream.of(
-//                arguments("openai", new OpenAiModule(), "Hello"),
+                arguments("openai", new OpenAiModule(), "Hello"),
 //                arguments("google", new GoogleModule(), "It's great to hear from you")
                 arguments("google", new GoogleModule(), "Hello")
         );
