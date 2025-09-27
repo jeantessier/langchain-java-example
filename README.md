@@ -4,6 +4,10 @@ A sample application that uses LangChain4J to interface with LLMs.
 
 Based on https://github.com/langchain4j/langchain4j-examples/blob/main/other-examples/src/main/java/HelloWorldExample.java
 
+The code uses Guice to wire the application components together.
+
+The tests are written using JUnit 5.
+
 ## To Compile
 
 ```bash
