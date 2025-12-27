@@ -6,7 +6,7 @@ assertj = "3.27.6"
 dotenv-java = "3.2.0"
 guice = "7.0.0"
 junit-jupiter = "6.0.1"
-langchain4j = "1.8.0"
+langchain4j = "1.10.0"
 
 [libraries]
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
