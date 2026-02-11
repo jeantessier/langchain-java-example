@@ -2,11 +2,11 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 
 [versions]
-assertj = "3.27.6"
+assertj = "3.27.7"
 dotenv-java = "3.2.0"
 guice = "7.0.0"
-junit-jupiter = "6.0.1"
-langchain4j = "1.10.0"
+junit-jupiter = "6.0.2"
+langchain4j = "1.11.0"
 
 [libraries]
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
