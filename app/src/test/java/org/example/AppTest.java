@@ -18,14 +18,16 @@ class AppTest {
     static Stream<Arguments> usedQuotaCases() {
         return Stream.of(
 //                arguments("openai", new OpenAiModule(), RateLimitException.class, "You exceeded your current quota"),
-                arguments("anthropic", new AnthropicModule(), InvalidRequestException.class, "Your credit balance is too low")
+                arguments("openai", new OpenAiModule(), RateLimitException.class, "You have no credits remaining")
+//                arguments("anthropic", new AnthropicModule(), InvalidRequestException.class, "Your credit balance is too low")
         );
     }
 
     static Stream<Arguments> noQuotaCases() {
         return Stream.of(
-                arguments("openai", new OpenAiModule(), "Hello"),
+//                arguments("openai", new OpenAiModule(), "Hello"),
 //                arguments("google", new GoogleModule(), "It's great to hear from you")
+                arguments("anthropic", new AnthropicModule(), "Hello"),
                 arguments("google", new GoogleModule(), "Hello")
         );
     }
